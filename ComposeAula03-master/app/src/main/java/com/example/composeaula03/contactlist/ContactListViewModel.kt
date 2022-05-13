@@ -35,7 +35,7 @@ class ContactListViewModel : ViewModel() {
             ),
             Contact(
                 4,
-                "Adriano Kelczeski",
+                "Adriano José Kelczeski",
                 "(47) 9 9658932",
                 " Rua Projetada 2, n° 16, São Cristóvão Três Barras -SC"
             ),
