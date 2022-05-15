@@ -16,10 +16,11 @@ import androidx.navigation.NavController
 import com.example.composeaula03.data.Contact
 
 @Composable
-fun AddEditContactScren(
+fun AddEditContactScreen(
     navController: NavController,
     addEditContactListViewModel: AddEditContactViewModel,
-    onInsertContact: (Contact) -> Unit
+    onInsertContact: (Contact) -> Unit,
+    contact: Contact
 
 
 ) {

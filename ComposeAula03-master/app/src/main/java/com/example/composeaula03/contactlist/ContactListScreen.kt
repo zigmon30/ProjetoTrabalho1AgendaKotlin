@@ -59,14 +59,16 @@ fun ContactListScreen(
         val filter by contactListViewModel.filterBy.observeAsState("")
 
         Column() {
-            SearchContact(filter, contactListViewModel::updateFilter)
-            ContactList(contacts = contactList ?: listOf<Contact>())
-            
+            SearchContact(
+                filter,
+                contactListViewModel::updateFilter
+            )
+            ContactList(
+                contacts = contactList,
+                navController = navController
+            )
         }
-        
-
     }
-
 }
 
 @Composable
@@ -100,7 +102,7 @@ fun ContactList(
     LazyColumn(){
         items(contacts){  contact ->
             ContactEntry(contact = contact) {
-                navController.navigate(route: "addeditcontact")
+                navController.navigate("addeditcontact")
             }
 
         }
@@ -132,15 +134,18 @@ fun ContactEntry(
     ) {
         Column() {
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.DarkGray),
                 verticalAlignment = Alignment.CenterVertically
+
             ) {
                 Box(
                     modifier = Modifier
                         .padding(6.dp)
                         .clip(CircleShape)
                         .size(60.dp)
-                        .background(Color.LightGray),
+                        .background(Color.Green),
                     contentAlignment = Alignment.Center
 
                 ) {
@@ -166,7 +171,8 @@ fun ContactEntry(
                             .size(40.dp)
                             .clickable {
                                 onEdit()
-                            },
+                            }
+                            .background(Color.Transparent),
                         imageVector = Icons.Default.Edit,
                         contentDescription = "Edit")
                 }

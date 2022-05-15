@@ -73,4 +73,18 @@ class ContactListViewModel : ViewModel() {
         list.add(contact)
         _contactList.value = list
     }
+
+    fun getContact(id: Int): Contact {
+        _contactList.value?.forEach{contact ->
+            if(id == contact.id)
+                return contact
+
+        }
+        return Contact(
+            id -1,
+            "",
+            "",
+            ""
+        )
+    }
 }
