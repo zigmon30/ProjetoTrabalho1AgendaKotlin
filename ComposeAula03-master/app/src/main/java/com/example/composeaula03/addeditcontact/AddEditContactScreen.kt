@@ -20,6 +20,7 @@ fun AddEditContactScreen(
     navController: NavController,
     addEditContactListViewModel: AddEditContactViewModel,
     onInsertContact: (Contact) -> Unit,
+    onUpdateContact: (Contact) -> Unit,
     contact: Contact
 
 
@@ -27,20 +28,28 @@ fun AddEditContactScreen(
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(onClick = {
-                addEditContactListViewModel.insertContact(onInsertContact)
+                if (contact.id == -1)
+                    addEditContactListViewModel.insertContact(onInsertContact)
+                else
+                    addEditContactListViewModel.updateContact(
+                        contact.id,
+                        onUpdateContact
+                    )
+
                 navController.navigate(route = "contactList"){
                     popUpTo("contactlist"){
                         inclusive = true
                     }
                 }
-
             }) {
                 Icon(imageVector = Icons.Default.Check, contentDescription = "Confirm")
-                
             }
             
         }
     ) {
+        addEditContactListViewModel.name.value = contact.name
+        addEditContactListViewModel.number.value = contact.number
+        addEditContactListViewModel.address.value = contact.address
         AddEditContactForm(addEditContactListViewModel)
 
     }

@@ -66,6 +66,8 @@ fun MyApp(
                     navController,
                     addContactListViewModel,
                     contactListViewModel::insertContact,
+                    contactListViewModel::updateContact,
+
                     contact
                 )
             }

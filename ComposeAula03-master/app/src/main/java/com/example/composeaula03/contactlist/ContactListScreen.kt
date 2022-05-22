@@ -51,7 +51,6 @@ fun ContactListScreen(
                 )*/
             }) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = "Add Contact")
-                
             }
         }
     ) {
@@ -102,7 +101,7 @@ fun ContactList(
     LazyColumn(){
         items(contacts){  contact ->
             ContactEntry(contact = contact) {
-                navController.navigate("addeditcontact")
+                navController.navigate("addeditcontact?id=${contact.id}")
             }
 
         }
@@ -136,7 +135,7 @@ fun ContactEntry(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color.DarkGray),
+                    .background(Color.Cyan),
                 verticalAlignment = Alignment.CenterVertically
 
             ) {

@@ -74,6 +74,19 @@ class ContactListViewModel : ViewModel() {
         _contactList.value = list
     }
 
+    fun updateContact(updateContact: Contact) {
+        var pos = -1
+        _contactList.value?.forEachIndexed { index, contact ->
+            if (updateContact.id == contact.id)
+                pos = index
+        }
+        val list: MutableList<Contact> = _contactList.value?.toMutableList() ?: return
+        list.removeAt(pos)
+        list.add(pos, updateContact )
+        _contactList.value = list
+
+    }
+
     fun getContact(id: Int): Contact {
         _contactList.value?.forEach{contact ->
             if(id == contact.id)
