@@ -100,4 +100,16 @@ class ContactListViewModel : ViewModel() {
             ""
         )
     }
+
+    fun removeContact(id: Int){
+        var pos = -1
+        _contactList.value?.forEachIndexed { index, contact ->
+            if (id == contact.id)
+                pos = index
+        }
+        val list: MutableList<Contact> = _contactList.value?.toMutableList() ?: return
+        list.removeAt(pos)
+        _contactList.value = list
+
+    }
 }

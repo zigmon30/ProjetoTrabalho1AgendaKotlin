@@ -67,6 +67,8 @@ fun MyApp(
                     addContactListViewModel,
                     contactListViewModel::insertContact,
                     contactListViewModel::updateContact,
+                    contactListViewModel::removeContact,
+
 
                     contact
                 )

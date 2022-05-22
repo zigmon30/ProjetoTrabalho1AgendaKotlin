@@ -21,6 +21,7 @@ fun AddEditContactScreen(
     addEditContactListViewModel: AddEditContactViewModel,
     onInsertContact: (Contact) -> Unit,
     onUpdateContact: (Contact) -> Unit,
+    onRemoveContact: (Int) -> Unit,
     contact: Contact
 
 
