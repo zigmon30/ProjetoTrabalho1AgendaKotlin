@@ -35,7 +35,7 @@ class ContactListViewModel : ViewModel() {
             ),
             Contact(
                 4,
-                "Adriano Kelczeski",
+                "Adriano José Kelczeski",
                 "(47) 9 9658932",
                 " Rua Projetada 2, n° 16, São Cristóvão Três Barras -SC"
             ),
@@ -72,5 +72,44 @@ class ContactListViewModel : ViewModel() {
         val list: MutableList<Contact> = _contactList.value?.toMutableList() ?: return
         list.add(contact)
         _contactList.value = list
+    }
+
+    fun updateContact(updateContact: Contact) {
+        var pos = -1
+        _contactList.value?.forEachIndexed { index, contact ->
+            if (updateContact.id == contact.id)
+                pos = index
+        }
+        val list: MutableList<Contact> = _contactList.value?.toMutableList() ?: return
+        list.removeAt(pos)
+        list.add(pos, updateContact )
+        _contactList.value = list
+
+    }
+
+    fun getContact(id: Int): Contact {
+        _contactList.value?.forEach{contact ->
+            if(id == contact.id)
+                return contact
+
+        }
+        return Contact(
+            id -1,
+            "",
+            "",
+            ""
+        )
+    }
+
+    fun removeContact(id: Int){
+        var pos = -1
+        _contactList.value?.forEachIndexed { index, contact ->
+            if (id == contact.id)
+                pos = index
+        }
+        val list: MutableList<Contact> = _contactList.value?.toMutableList() ?: return
+        list.removeAt(pos)
+        _contactList.value = list
+
     }
 }

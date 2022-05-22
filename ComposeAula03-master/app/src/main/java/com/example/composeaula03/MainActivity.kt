@@ -14,7 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 
-import com.example.composeaula03.addeditcontact.AddEditContactScren
+import com.example.composeaula03.addeditcontact.AddEditContactScreen
 import com.example.composeaula03.addeditcontact.AddEditContactViewModel
 import com.example.composeaula03.contactlist.ContactListScreen
 import com.example.composeaula03.contactlist.ContactListViewModel
@@ -52,13 +52,25 @@ fun MyApp(
                 ContactListScreen(navController, contactListViewModel)
             }
             composable(
-                route = "addeditcontact",
+                route = "addeditcontact?id={id}",
+                arguments = listOf(navArgument("id"){
+                    defaultValue = -1
+                    type = NavType.IntType
+                }
+                )
 
-            ){
-                AddEditContactScren(
+            ){  navBackStackEntry ->
+                val id = navBackStackEntry.arguments?.getInt("id") ?: -1
+                val contact = contactListViewModel.getContact(id)
+                AddEditContactScreen(
                     navController,
                     addContactListViewModel,
-                    contactListViewModel::insertContact
+                    contactListViewModel::insertContact,
+                    contactListViewModel::updateContact,
+                    contactListViewModel::removeContact,
+
+
+                    contact
                 )
             }
         }

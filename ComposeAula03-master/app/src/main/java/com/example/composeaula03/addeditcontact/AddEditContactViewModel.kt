@@ -30,4 +30,18 @@ class AddEditContactViewModel : ViewModel(){
 
 
     }
+    fun updateContact(
+        id: Int,
+        onUpdateContact: (Contact) -> Unit
+    ){
+        val contact = Contact(
+            id,
+            name.value ?: return,
+            number.value ?: return,
+            address.value ?: return,
+        )
+        onUpdateContact(contact)
+
+    }
+
 }

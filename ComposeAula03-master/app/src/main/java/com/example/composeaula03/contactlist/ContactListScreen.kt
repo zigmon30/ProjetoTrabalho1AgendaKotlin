@@ -14,6 +14,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -50,7 +51,6 @@ fun ContactListScreen(
                 )*/
             }) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = "Add Contact")
-                
             }
         }
     ) {
@@ -58,14 +58,16 @@ fun ContactListScreen(
         val filter by contactListViewModel.filterBy.observeAsState("")
 
         Column() {
-            SearchContact(filter, contactListViewModel::updateFilter)
-            ContactList(contacts = contactList ?: listOf<Contact>())
-            
+            SearchContact(
+                filter,
+                contactListViewModel::updateFilter
+            )
+            ContactList(
+                contacts = contactList,
+                navController = navController
+            )
         }
-        
-
     }
-
 }
 
 @Composable
@@ -92,10 +94,15 @@ fun SearchContact(
 }
 
 @Composable
-fun ContactList(contacts: List<Contact>) {
+fun ContactList(
+    contacts: List<Contact>,
+    navController: NavController
+) {
     LazyColumn(){
         items(contacts){  contact ->
-            ContactEntry(contact = contact)
+            ContactEntry(contact = contact) {
+                navController.navigate("addeditcontact?id=${contact.id}")
+            }
 
         }
 
@@ -104,7 +111,10 @@ fun ContactList(contacts: List<Contact>) {
 }
 
 @Composable
-fun ContactEntry(contact: Contact) {
+fun ContactEntry(
+    contact: Contact,
+    onEdit: () -> Unit
+) {
     var expanded by remember {
         mutableStateOf(value = false)
     }
@@ -123,15 +133,18 @@ fun ContactEntry(contact: Contact) {
     ) {
         Column() {
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.Cyan),
                 verticalAlignment = Alignment.CenterVertically
+
             ) {
                 Box(
                     modifier = Modifier
                         .padding(6.dp)
                         .clip(CircleShape)
                         .size(60.dp)
-                        .background(Color.LightGray),
+                        .background(Color.Green),
                     contentAlignment = Alignment.Center
 
                 ) {
@@ -143,11 +156,25 @@ fun ContactEntry(contact: Contact) {
                 }
 
                 Text(
-                    modifier = Modifier.padding(start = 8.dp),
+                    modifier = Modifier
+                        .padding(start = 8.dp)
+                        .weight(weight = 1f),
                     text = contact.name,
                     style = MaterialTheme.typography.h6
 
                 )
+                if(expanded) {
+                    Icon(
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .size(40.dp)
+                            .clickable {
+                                onEdit()
+                            }
+                            .background(Color.Transparent),
+                        imageVector = Icons.Default.Edit,
+                        contentDescription = "Edit")
+                }
 
 
 
@@ -173,7 +200,7 @@ fun ContactEntry(contact: Contact) {
     }
 
 }
-
+/*
 @Preview
 @Composable
 fun ContactListPreview() {
@@ -200,5 +227,7 @@ fun ContactEntryPreview() {
             "(47) 9 9658932",
             " Rua Projetada 2, n° 16, São Cristóvão Três Barras -SC"
         )
-    )
+    ))
 }
+
+*/
