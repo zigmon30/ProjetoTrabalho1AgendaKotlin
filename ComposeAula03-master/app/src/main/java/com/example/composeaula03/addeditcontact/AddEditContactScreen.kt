@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -51,7 +52,18 @@ fun AddEditContactScreen(
         addEditContactListViewModel.name.value = contact.name
         addEditContactListViewModel.number.value = contact.number
         addEditContactListViewModel.address.value = contact.address
-        AddEditContactForm(addEditContactListViewModel)
+
+        AddEditContactForm(
+            addEditContactListViewModel,
+            contact.id,
+            onRemoveContact,
+        ){
+            navController.navigate(route = "contactList"){
+                popUpTo("contactlist"){
+                    inclusive = true
+                }
+            }
+        }
 
     }
 
@@ -60,11 +72,18 @@ fun AddEditContactScreen(
 }
 @Composable
 fun AddEditContactForm(
-    addEditContactListViewModel: AddEditContactViewModel
+    addEditContactListViewModel: AddEditContactViewModel,
+    id: Int,
+    onRemoveContact: (Int) -> Unit,
+    navigateBack: () -> Unit
 ) {
     var name = addEditContactListViewModel.name.observeAsState()
     var number = addEditContactListViewModel.number.observeAsState()
     var address = addEditContactListViewModel.address.observeAsState()
+Column(
+    modifier = Modifier.fillMaxHeight(),
+    verticalArrangement = Arrangement.SpaceBetween
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -90,8 +109,8 @@ fun AddEditContactForm(
                 .fillMaxWidth()
                 .padding(16.dp),
             label = {
-                    Text(text = "Digite seu Telefone?")
-                    
+                Text(text = "Digite seu Telefone?")
+
             },
             value = "${number.value}",
             onValueChange = {newNumber->
@@ -113,12 +132,25 @@ fun AddEditContactForm(
         )
 
     }
+    if (id != -1)
+        FloatingActionButton(
 
+            modifier = Modifier.padding(16.dp),
+            onClick = {
+                onRemoveContact(id)
+                navigateBack()
+            }
+        ) {
+            Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete")
+        }
 }
 
+}
+/*
 @Preview
 @Composable
 fun AddEditContactFormPreview() {
     val addEditContactViewModel: AddEditContactViewModel = viewModel()
     AddEditContactForm(addEditContactViewModel)
 }
+*/
